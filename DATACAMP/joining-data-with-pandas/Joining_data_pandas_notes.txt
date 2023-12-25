@@ -1,0 +1,70 @@
+Reference: https://realpython.com/pandas-merge-join-and-concat/
+		   https://stackabuse.com/how-to-merge-dataframes-in-pandas/
+		   https://towardsdatascience.com/pandas-join-vs-merge-c365fd4fbf49
+		   
+================================================================
+
+Difference between concat and append:
+========================================
+
+append supports  ignore_index and sort but no keys and join . Default join is always outer
+
+Concat have axis and can combine data vertically as well as horizaontally
+
+concat has verify_integrity parameter which has default value of False but if set to True it will ensure that index
+on cancatenate dataframe has not duplicate index value
+
+======================================================================================================================================
+
+Merge
+=====
+pd.merge(left, right, how='inner', on=None, left_on=None, right_on=None,
+         left_index=False, right_index=False, sort=True,
+         suffixes=('_x', '_y'), copy=True, indicator=False,
+         validate=None)
+
+It is the most flexible option and similar to database join operation
+two mandatory parametets left and right DF.
+
+Optional parameters
+How: Default Inner
+On: If not specified then columns from both DF which share same name will be used
+left_on and right_on: Default None
+left_index and right_index both default to False
+suffixes is a tuple of strings
+
+Join
+=====
+
+DataFrame.join(other, on=None, how='left', lsuffix='', rsuffix='', sort=False)
+
+
+By default, .join() will attempt to do a left join on indices
+Optional parameters
+
+ON specifies an optional column or index name for the left DataFrame 
+how has the same options as how from merge()
+lsuffix and rsuffix are similar to suffixes in merge()
+sort can be enabled to sort the resulting DataFrame by the join key
+
+pandas concat(): Combining Data Across Rows or Columns
+=========================================================
+
+concatenated = pandas.concat([df1, df2]) --Vertical
+concatenated = pandas.concat([df1, df2], axis="columns") -- Horizontal
+
+Optional parameters:
+
+axis: default 0
+join is similar to the how parameter in the other techniques, but it only accepts the values inner or outer. The default value is outer, which preserves data, while inner would eliminate data that doesn’t have a match in the other dataset
+
+ignore_index takes a Boolean True or False value. It defaults to False. If True, then the new combined dataset won’t preserve the original index values in the axis specified in the axis parameter. This lets you have entirely new index values
+
+copy specifies whether you want to copy the source data. The default value is True
+
+As the official Pandas documentation points, since concat() and append() methods return new copies of DataFrames, overusing these methods can affect the performance of your program
+
+Append
+======
+
+df_append = df1.append(df2, ignore_index=True)
